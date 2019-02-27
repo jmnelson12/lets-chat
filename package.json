@@ -1,0 +1,23 @@
+{
+	"name": "lets-chat",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"start": "node server.js",
+		"server": "nodemon server.js",
+		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+		"client": "npm start --prefix frontend"
+	},
+	"author": "Jacob Nelson",
+	"license": "ISC",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.18.3",
+		"concurrently": "^4.1.0",
+		"express": "^4.16.4",
+		"express-favicon": "^2.0.1",
+		"mongoose": "^5.4.1",
+		"socket.io": "^2.2.0"
+	}
+}

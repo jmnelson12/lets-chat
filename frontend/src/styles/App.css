@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css?family=Ubuntu;Ubuntu+Mono");
+
+:root {
+	--dark-blue: #212740;
+	--medium-blue: #394264;
+	--light-blue: #23acbe;
+	--blue: #3264a8;
+	--light-red: #df465f;
+	--white: #d4d5df;
+	--light-orange: #f3a25d;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+html,
+body {
+	background-color: var(--dark-blue);
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+p,
+span,
+h1,
+h2,
+h3,
+div,
+a,
+button,
+input {
+	font-family: "Ubuntu", sans-serif;
+	letter-spacing: 1px;
+	color: var(--white);
+	-webkit-font-smoothing: antialiased;
+}
+
+#root {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+/* Media Section */
+@media only screen and (max-width: 750px) {
+	.user-auth-holder {
+		width: 75%;
+	}
+}
