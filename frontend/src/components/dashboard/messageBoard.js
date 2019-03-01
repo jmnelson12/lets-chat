@@ -34,8 +34,6 @@ export default class MessageBoard extends Component {
 		return strTime;
 	}
 
-	// if message user info == message.userInfo, then add class
-
 	render() {
 		const { currentRoom } = this.state;
 		const { messages, userData } = this.props;

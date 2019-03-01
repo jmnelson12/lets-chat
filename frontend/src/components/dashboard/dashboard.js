@@ -93,10 +93,9 @@ export default class Dashboard extends Component {
 			// push message to sender's message area
 			let newMessages = this.state.messages.concat({
 				message: msg,
+				timestamp: new Date().toString(),
 				userInfo: this.state.userData
 			});
-
-			console.log(newMessages);
 
 			this.setState({
 				messages: newMessages

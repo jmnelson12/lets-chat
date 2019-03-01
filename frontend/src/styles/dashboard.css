@@ -82,6 +82,8 @@
 .message {
 	margin-bottom: 10px;
 	display: table;
+	max-width: 56%;
+	padding-top: 15px;
 }
 
 .userMsg {
