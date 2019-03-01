@@ -30,9 +30,6 @@ class App extends Component {
 
 	componentDidMount() {
 		const obj = getFromStorage(storage_key);
-		this.setState({
-			isLoading: false
-		});
 		if (obj && obj.token) {
 			const { token } = obj;
 
