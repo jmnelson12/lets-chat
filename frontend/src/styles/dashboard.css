@@ -79,6 +79,35 @@
 	overflow: auto;
 }
 
+.message {
+	margin-bottom: 10px;
+	display: table;
+}
+
+.userMsg {
+	background-color: rgba(25, 25, 25, 0.9);
+	padding: 10px 20px;
+	border-radius: 20px;
+	color: var(--white);
+	margin: 10px 0;
+	font-size: 18px;
+	box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+	display: inherit;
+}
+.message.mainUser {
+	margin-left: auto;
+}
+.message.mainUser .userInfo {
+	text-align: right;
+	margin-right: 20px;
+}
+.message.mainUser .userMsg {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: var(--dark-blue);
+	margin-left: auto;
+	box-shadow: 0px 0px 3px rgba(255, 255, 255, 0.4);
+}
+
 .message-input {
 	height: 50px;
 	background-color: var(--medium-blue);

@@ -39,34 +39,32 @@ export default class Dashboard extends Component {
 				});
 			}
 
-			this.setState({
-				errorMessage: "",
-				userData: receivedPayload
+			getMessages(GENERAL_CHAT_ID).then(res => {
+				if (!res.success) {
+					this.setState({
+						errorMessage: "Error grabbing messages",
+						userData: receivedPayload
+					});
+				}
+
+				const responseData = res.payload.data.payload;
+
+				let newMessages = responseData.map(msg => {
+					return {
+						message: msg.message,
+						timestamp: msg.timestamp,
+						userInfo: msg.userInfo
+					};
+				});
+
+				this.setState({
+					messages: newMessages,
+					errorMessage: "",
+					userData: receivedPayload
+				});
 			});
 
 			userConnected(this.state.userData);
-		});
-		// gonna have to change to current users chatroom
-		getMessages(GENERAL_CHAT_ID).then(res => {
-			if (!res.success) {
-				this.setState({
-					errorMessage: "Error grabbing messages"
-				});
-			}
-
-			const responseData = res.payload.data.payload;
-
-			let newMessages = responseData.map(msg => {
-				return {
-					message: msg.message,
-					timestamp: msg.timestamp,
-					userInfo: msg.userInfo
-				};
-			});
-
-			this.setState({
-				messages: newMessages
-			});
 		});
 
 		this.socketReceiver();
