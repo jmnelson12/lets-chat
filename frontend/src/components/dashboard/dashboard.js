@@ -140,7 +140,7 @@ export default class Dashboard extends Component {
 		return (
 			<div className="dashboard">
 				<div className="left-panel panel">
-					<div className="user-info inset-shadow">
+					<div className="user-info">
 						<button
 							className="btn-logout"
 							onClick={() => {
@@ -157,7 +157,7 @@ export default class Dashboard extends Component {
 							{errorMessage}
 						</h2>
 					</div>
-					<div className="chatRoom inset-shadow" />
+					<div className="chatRoom" />
 				</div>
 				<div className="right-panel panel">
 					<div className="panelHeader" />

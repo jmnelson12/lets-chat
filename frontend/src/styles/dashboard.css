@@ -8,15 +8,14 @@
 	float: left;
 	width: 30%;
 	max-width: 300px;
-	border-right: 4px solid var(--dark-blue);
+	border-right: 4px solid var(--light-orange);
 	height: 100%;
-	background-color: var(--medium-blue);
+	background-color: var(--white);
 	text-align: left;
 }
 
 .dashboard .left-panel .user-info {
 	height: 30%;
-	border-bottom: 5px solid var(--dark-blue);
 	position: relative;
 	padding: 8px;
 	min-height: 200px;
@@ -28,7 +27,7 @@
 	border: none;
 	font-size: 16px;
 	padding: 4px 15px;
-	display: block;
+	display: none;
 	margin-bottom: 8px;
 	letter-spacing: 0px;
 	cursor: pointer;
