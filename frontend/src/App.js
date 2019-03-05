@@ -78,7 +78,7 @@ class App extends Component {
 		const { isLoading, token, userLogin, message } = this.state;
 
 		if (isLoading) {
-			return <div>Loading...</div>;
+			return <div className="le-loader">Setting things up...</div>;
 		}
 		if (!token) {
 			return (

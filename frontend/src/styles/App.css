@@ -46,6 +46,11 @@ input {
 	position: relative;
 }
 
+.le-loader {
+	padding: 20px;
+	font-size: 24px;
+}
+
 /* Media Section */
 @media only screen and (max-width: 750px) {
 	.user-auth-holder {

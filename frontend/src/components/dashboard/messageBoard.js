@@ -5,8 +5,38 @@ export default class MessageBoard extends Component {
 		super(props);
 		this.state = {
 			newMessage: "",
-			currentRoom: "General"
+			currentRoom: "General",
+			menuToggled: false
 		};
+
+		this.handleMenuClick = this.handleMenuClick.bind(this);
+	}
+
+	handleMenuClick() {
+		const leftPanel = document.querySelector(".left-panel");
+		const menuBtn = document.querySelector(".hidden-menu-btn");
+		if (leftPanel) {
+			if (this.state.menuToggled) {
+				// untoggle
+				leftPanel.style.display = "none";
+
+				menuBtn.style.top = "0";
+				menuBtn.style.color = "var(--dark-blue)";
+				menuBtn.style.position = "relative";
+			} else {
+				// toggle
+				leftPanel.style.display = "block";
+
+				menuBtn.style.top = "calc(-98vh)";
+				menuBtn.style.color = "var(--white)";
+				menuBtn.style.position = "absolute";
+				menuBtn.style.right = "10px";
+			}
+
+			this.setState({
+				menuToggled: !this.state.menuToggled
+			});
+		}
 	}
 
 	formatDate(datestring) {
@@ -40,7 +70,14 @@ export default class MessageBoard extends Component {
 
 		return (
 			<div>
-				<div className="message-room">{currentRoom}</div>
+				<div className="message-room">
+					{currentRoom}
+					<div
+						className="hidden-menu-btn"
+						onClick={this.handleMenuClick}>
+						menu
+					</div>
+				</div>
 				<div className="messages inset-shadow">
 					{messages.map((data, i) => {
 						let testUser = false;

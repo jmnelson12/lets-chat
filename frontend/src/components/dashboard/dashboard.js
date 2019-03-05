@@ -141,23 +141,31 @@ export default class Dashboard extends Component {
 			<div className="dashboard">
 				<div className="left-panel panel">
 					<div className="user-info">
-						<button
-							className="btn-logout"
-							onClick={() => {
-								this.props.removeToken();
-								userDisconnected(this.state.userData);
-								logout(this.props.loginToken);
-							}}>
-							Logout
-						</button>
-
 						<UserPanel data={userData} />
 
 						<h2 className="dashboard-error-message">
 							{errorMessage}
 						</h2>
 					</div>
-					<div className="chatRoom" />
+					<div className="chatRoom">
+						<ChatRooms />
+					</div>
+					<button
+						className="btn-logout"
+						onClick={() => {
+							/* eslint-disable */
+							const logoutCheck = confirm(
+								"Are you sure you want to logout?"
+							);
+							/* eslint-enable */
+							if (logoutCheck) {
+								this.props.removeToken();
+								userDisconnected(this.state.userData);
+								logout(this.props.loginToken);
+							}
+						}}>
+						Logout
+					</button>
 				</div>
 				<div className="right-panel panel">
 					<div className="panelHeader" />
