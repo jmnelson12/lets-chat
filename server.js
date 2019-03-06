@@ -18,6 +18,7 @@ const db =
 // APi Routing
 const userAuthRoutes = require("./routes/auth/userAuthRoutes");
 const userDataRoutes = require("./routes/data/userDataRoutes");
+const chatroomRoutes = require("./routes/data/chatroomRouter");
 
 // Socket Controller
 const socketCont = require("./controllers/socket.controller");
@@ -32,8 +33,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // api usage
 app.use("/user", userAuthRoutes);
 app.use("/user", userDataRoutes);
+app.use("/user", chatroomRoutes);
 
-// Testing socket io messages
+// socket io
 io.on("connection", client => {
 	// Send Message
 	client.on("sentMessage", data => {

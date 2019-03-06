@@ -11,6 +11,7 @@
 	height: 100%;
 	background-color: var(--dark-blue);
 	text-align: left;
+	display: block;
 }
 
 .dashboard .left-panel .user-info {
@@ -168,6 +169,12 @@
 @media only screen and (min-width: 1000px) {
 	.dashboard .right-panel {
 		width: calc(100% - 300px);
+	}
+}
+
+@media only screen and (min-width: 701px) {
+	.dashboard .left-panel {
+		display: block !important;
 	}
 }
 

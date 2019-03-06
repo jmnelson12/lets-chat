@@ -5,6 +5,6 @@ const messageCtrl = require("../../controllers/message.controller");
 
 // User data routes
 router.route(`/getUser`).get(userMainCtrl.getUser);
-router.route('/getMessages').get(messageCtrl.getMessages);
+router.route(`/getMessages`).get(messageCtrl.getMessages);
 
 module.exports = router;
