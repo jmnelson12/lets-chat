@@ -3,15 +3,10 @@ const router = express.Router();
 const chatroomCtrl = require("../../controllers/chatroom.controller");
 
 // chatroom routes
-router.route(`/createChatroom`).post(chatroomCtrl.createChatroom);
-router.route(`/removeChatroom`).delete(chatroomCtrl.removeChatroom);
-router.route(`/updateChatroom`).put(chatroomCtrl.updateChatroom);
-router.route(`/getChatrooms`).get(chatroomCtrl.getChatrooms);
-
-router.route(`/test`).get((req, res) => {
-    return res.send({
-        message: "worked"
-    })
-})
+router.route(`/create`).post(chatroomCtrl.createChatroom);
+router.route(`/delete`).delete(chatroomCtrl.removeChatroom);
+router.route(`/update`).put(chatroomCtrl.updateChatroom);
+router.route(`/getAll`).get(chatroomCtrl.getChatrooms);
+router.route(`/getOne`).get(chatroomCtrl.getChatroom);
 
 module.exports = router;

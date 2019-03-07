@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // api usage
 app.use("/user", userAuthRoutes);
 app.use("/user", userDataRoutes);
-app.use("/user", chatroomRoutes);
+app.use("/chatroom", chatroomRoutes);
 
 // socket io
 io.on("connection", client => {
