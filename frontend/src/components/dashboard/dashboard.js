@@ -13,6 +13,7 @@ import UserPanel from "./userPanel";
 import ChatRooms from "./chatrooms";
 import MessageBoard from "./messageBoard";
 
+// const GENERAL_CHAT_ID = "5c8179cf5b2316123954c7c9";
 const GENERAL_CHAT_ID = "12345";
 
 export default class Dashboard extends Component {
@@ -148,7 +149,7 @@ export default class Dashboard extends Component {
 						</h2>
 					</div>
 					<div className="chatRoom">
-						<ChatRooms />
+						<ChatRooms data={userData} />
 					</div>
 					<button
 						className="btn-logout"

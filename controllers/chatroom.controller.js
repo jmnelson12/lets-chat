@@ -81,6 +81,8 @@ module.exports = {
 		// DELETE
 		let { cid, userEmail } = req.body;
 
+		console.log(req.body);
+
 		if (!cid) {
 			return res.send({
 				success: false,
