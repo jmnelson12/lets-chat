@@ -3,29 +3,17 @@ import axios from "axios";
 export const createChatroom = async (chatroomName, email) => {
 	return Promise.resolve(
 		await axios.post("/chatroom/create", {
-			body: {
-				chatroomName,
-				email
-			}
+			chatroomName,
+			email
 		})
 	);
 };
 export const deleteChatroom = async (cid, email) => {
 	return Promise.resolve(
 		await axios.delete("/chatroom/delete", {
-			body: {
+			params: {
 				cid,
 				userEmail: email
-			}
-		})
-	);
-};
-export const updateChatroom = async (cid, newChatroomName) => {
-	return Promise.resolve(
-		await axios.put("/chatroom/update", {
-			body: {
-				cid,
-				newChatroomName
 			}
 		})
 	);
@@ -60,7 +48,10 @@ export const getChatroom = async cid => {
 
 	try {
 		response.success = true;
-		response.payload = await axios.get("/chatroom/getOne", { cid });
+		response.payload = await axios.get("/chatroom/getOne", {
+			params: {
+				cid: cid
+			}});
 	} catch (e) {
 		response.success = false;
 		response.message = "Error calling /chatroom/getOne api endpoint";
@@ -68,3 +59,6 @@ export const getChatroom = async cid => {
 
 	return Promise.resolve(response);
 };
+export const selectChatroom = async cid => {
+
+}

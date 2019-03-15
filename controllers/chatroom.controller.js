@@ -69,9 +69,11 @@ module.exports = {
 							message: "Server error"
 						});
 					}
+
 					res.send({
 						success: true,
-						message: "Successfully created"
+						message: "Successfully created",
+						payload: { _id: room._id, chatroomName: room.chatroomName}
 					});
 				});
 			});
@@ -79,9 +81,7 @@ module.exports = {
 	},
 	removeChatroom(req, res) {
 		// DELETE
-		let { cid, userEmail } = req.body;
-
-		console.log(req.body);
+		let { cid, userEmail } = req.query;
 
 		if (!cid) {
 			return res.send({
@@ -137,49 +137,6 @@ module.exports = {
 			});
 		});
 	},
-	updateChatroom(req, res) {
-		// PUT
-		let { cid, newChatroomName } = req.body;
-
-		if (!cid) {
-			return res.send({
-				success: false,
-				message: "Please provide the chatroom id"
-			});
-		}
-
-		if (
-			!newChatroomName ||
-			(newChatroomName.length < 4 || newChatroomName.length > 25)
-		) {
-			return res.send({
-				success: false,
-				message:
-					"Chatroom Name length must be between 4 and 25 characters"
-			});
-		}
-
-		newChatroomName = newChatroomName.toLowerCase();
-
-		// check if chatroom exists - by name
-		Chatroom.findOneAndUpdate(
-			{ _id: cid },
-			{ $set: { chatroomName: newChatroomName } },
-			(err, room) => {
-				if (err) {
-					return res.send({
-						success: false,
-						message: "Server Error"
-					});
-				}
-
-				return res.send({
-					success: true,
-					message: "Success!"
-				});
-			}
-		);
-	},
 	getChatrooms(req, res) {
 		// GET
 		Chatroom.find({}, (err, crooms) => {
@@ -213,7 +170,7 @@ module.exports = {
 	},
 	getChatroom(req, res) {
 		// GET
-		const { cid } = req.body;
+		const { cid } = req.query;
 
 		if (!cid) {
 			return res.send({
@@ -245,5 +202,8 @@ module.exports = {
 				}
 			});
 		});
+	},
+	selectChatroom(req, res) {
+		// need to change what chatroom the user is in
 	}
 };

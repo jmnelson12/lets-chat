@@ -140,7 +140,16 @@ export default class Dashboard extends Component {
 
 		return (
 			<div className="dashboard">
-				<div className="left-panel panel">
+				<div
+					className="left-panel panel"
+					onClick={() => {
+						document.querySelector(
+							".chatRoom .errorMsg"
+						).innerText = "";
+						document.querySelector(
+							"input.txtCreate"
+						).style.display = "none";
+					}}>
 					<div className="user-info">
 						<UserPanel data={userData} />
 

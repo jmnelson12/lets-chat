@@ -167,6 +167,34 @@
 }
 
 /* Chatroom side panel styles */
+.c-show {
+    border: 1px solid #eee !important;
+    padding: 4px 8px;
+    width: 60%;
+    border-radius: 3px;
+    cursor: inherit !important;
+	background-color: #fff !important;
+	color: #000;
+}
+
+.txtCreate {
+    background-color: transparent;
+    border: 1px solid var(--medium-blue);
+    padding: 3px 8px;
+    border-radius: 2px;
+	margin-top: 4px;
+	display: none;
+}
+
+.btnCreate {
+    background-color: transparent;
+    border: none;
+    color: var(--light-blue);
+	cursor: pointer;
+	position: relative;
+	z-index: 9999;
+}
+
 .errorMsg {
 	color: var(--light-red);
 	font-size: 14px;
@@ -182,6 +210,11 @@
 	position: relative;
 }
 
+.room:nth-child(even) {
+    border: 1px solid var(--white);
+}
+
+
 .room * {
 	cursor: pointer;
 }
@@ -193,6 +226,10 @@
 	text-transform: capitalize;
 	font-size: 18px;
 	border: none;
+}
+
+.room:hover .action-btns {
+    display: block;
 }
 
 .action-btns {
