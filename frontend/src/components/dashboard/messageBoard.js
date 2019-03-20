@@ -5,7 +5,6 @@ export default class MessageBoard extends Component {
 		super(props);
 		this.state = {
 			newMessage: "",
-			currentRoom: "General",
 			menuToggled: false
 		};
 
@@ -65,13 +64,12 @@ export default class MessageBoard extends Component {
 	}
 
 	render() {
-		const { currentRoom } = this.state;
 		const { messages, userData } = this.props;
 
 		return (
 			<div>
 				<div className="message-room">
-					{currentRoom}
+					{this.props.currentRoom}
 					<div
 						className="hidden-menu-btn"
 						onClick={this.handleMenuClick}>

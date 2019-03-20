@@ -75,6 +75,7 @@
 	background-color: var(--white);
 	color: var(--dark-blue);
 	font-size: 30px;
+	text-transform: capitalize;
 }
 .hidden-menu-btn {
 	display: none;

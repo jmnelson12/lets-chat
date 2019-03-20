@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
 	},
 	currentChatRoomId: {
 		type: String,
-		default: "5c8179cf5b2316123954c7c9"
+		default: "5c916ee9f3c8000de5cc206c"
 	},
 	isDeleted: {
 		type: Boolean,

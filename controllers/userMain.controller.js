@@ -45,7 +45,8 @@ module.exports = {
 					const payload = {
 						firstName: user.firstName,
 						lastName: user.lastName,
-						email: user.email
+						email: user.email,
+						chatroom: user.currentChatRoomId
 					};
 
 					// Verify user hasn't been deleted

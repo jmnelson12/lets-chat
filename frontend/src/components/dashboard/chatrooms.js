@@ -3,6 +3,7 @@ import {
 	createChatroom,
 	getChatrooms,
 	getChatroom,
+	selectChatroom,
 	deleteChatroom
 } from "../../utils/chatroom";
 
@@ -49,7 +50,27 @@ export default class ChatRooms extends Component {
 		});
 	}
 
-	handleSelect() {}
+	handleSelect(cid) {
+		const { email } = this.props.data;
+
+		if (email) {
+			selectChatroom(cid, email).then(res => {
+				if (!res.data.success) {
+					document.querySelector('.chatRoom .errorMsg').innerText = res.data.message;
+				} else {
+					document.querySelector('.chatRoom .errorMsg').innerText = "";
+					getChatroom(cid).then(res => {
+						if (res.success) {
+							const data = res.payload.data.payload;
+							this.props.chatroomChange(data._id, data.chatroomName);
+						} else {
+							document.querySelector('.chatRoom .errorMsg').innerText = res.message;
+						}
+					})
+				}
+			});
+		}
+	}
 	handleDelete(cid) {
 		const { email } = this.props.data;
 		if (email) {
@@ -59,7 +80,6 @@ export default class ChatRooms extends Component {
 			);
 
 			deleteChatroom(cid, email).then(res => {
-				console.log(res);
 				if (!res.data.success) {
 					document.querySelector('.chatRoom .errorMsg').innerText = res.data.message;
 				} else {

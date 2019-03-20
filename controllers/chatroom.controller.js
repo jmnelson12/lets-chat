@@ -179,7 +179,61 @@ module.exports = {
 			});
 		}
 
-		Chatroom.findOne({ _id: cid }, (err, room) => {
+		Chatroom.find({}, (err, rooms) => {
+			if (err || rooms === []) {
+				return res.send({
+					success: false,
+					message: "Chatroom Not Found"
+				});
+			}
+
+			// loop over chatrooms returning one if cid matches a room id
+			let roomToSend = rooms.filter(room => {
+				return cid === room._id.toString();
+			});
+
+			if (roomToSend.length !== 0) {
+
+				return res.send({
+					success: true,
+					message: "success",
+					payload: {
+						_id: roomToSend[0]._id,
+						chatroomName: roomToSend[0].chatroomName
+					}
+				});
+			}
+
+			// if no matches return first chatroom in list
+			return res.send({
+				success: true,
+				message: "success",
+				payload: {
+					_id: rooms[0]._id,
+					chatroomName: rooms[0].chatroomName
+				},
+				roomDeleted: true
+			});
+		})
+	},
+	selectChatroom(req, res) {
+		let { cid, userEmail } = req.query;
+
+		if (!cid) {
+			return res.send({
+				success: false,
+				message: "Chatroom not found"
+			});
+		}
+
+		if (!userEmail) {
+			return res.send({
+				success: false,
+				message: "Email not found"
+			});
+		}
+
+		User.findOneAndUpdate({ email: userEmail }, { $set: { currentChatRoomId: cid}}, (err, doc) => {
 			if (err) {
 				return res.send({
 					success: false,
@@ -187,23 +241,11 @@ module.exports = {
 				});
 			}
 
-			if (!room) {
-				return res.send({
-					success: false,
-					message: "Chatroom Not Found"
-				});
-			}
-
 			return res.send({
 				success: true,
-				payload: {
-					_id: room._id,
-					chatroomName: room.chatroomName
-				}
+				message: "success",
+				payload: doc.currentChatRoomId
 			});
-		});
-	},
-	selectChatroom(req, res) {
-		// need to change what chatroom the user is in
+		})
 	}
 };

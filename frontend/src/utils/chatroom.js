@@ -59,6 +59,13 @@ export const getChatroom = async cid => {
 
 	return Promise.resolve(response);
 };
-export const selectChatroom = async cid => {
-
+export const selectChatroom = async (cid, email) => {
+	return Promise.resolve(
+		await axios.get("/chatroom/select", {
+			params: {
+				cid,
+				userEmail: email
+			}
+		})
+	);
 }

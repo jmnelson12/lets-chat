@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { logout } from "../../utils/userAuth";
 import { getUser, getMessages } from "../../utils/userData";
+import { getChatroom, selectChatroom } from "../../utils/chatroom";
 import {
 	sendMessage,
 	userConnected,
@@ -13,9 +14,6 @@ import UserPanel from "./userPanel";
 import ChatRooms from "./chatrooms";
 import MessageBoard from "./messageBoard";
 
-// const GENERAL_CHAT_ID = "5c8179cf5b2316123954c7c9";
-const GENERAL_CHAT_ID = "12345";
-
 export default class Dashboard extends Component {
 	constructor(props) {
 		super(props);
@@ -23,14 +21,18 @@ export default class Dashboard extends Component {
 			messages: [],
 			userData: {},
 			senderData: {},
-			errorMessage: ""
+			errorMessage: "",
+			currentRoom: "Loading...",
+			currentRoomID: ""
 		};
 
 		this.handleSend = this.handleSend.bind(this);
 		this.socketReceiver = this.socketReceiver.bind(this);
+		this.handleChatroomChange = this.handleChatroomChange.bind(this);
 	}
 
 	componentDidMount() {
+		const _this = this;
 		getUser(this.props.loginToken).then(res => {
 			const receivedPayload = res.payload.data.payload;
 
@@ -40,32 +42,61 @@ export default class Dashboard extends Component {
 				});
 			}
 
-			getMessages(GENERAL_CHAT_ID).then(res => {
-				if (!res.success) {
+			getChatroom(receivedPayload.chatroom).then(res => {
+				if (!res.payload.data.success) {
 					this.setState({
 						errorMessage: "Error grabbing messages",
 						userData: receivedPayload
 					});
 				}
+				const cdata = res.payload.data.payload;
 
-				const responseData = res.payload.data.payload;
+				if (typeof res.payload.data.roomDeleted !== 'undefined' && res.payload.data.roomDeleted) {
+					selectChatroom(cdata._id, receivedPayload.email).then(res => {
+						if (!res.data.success) {
+							this.setState({
+								errorMessage: "Error grabbing messages",
+								userData: receivedPayload,
+								currentRoomID: cdata._id,
+								currentRoom: cdata.chatroomName
+							});
+						}
 
-				let newMessages = responseData.map(msg => {
-					return {
-						message: msg.message,
-						timestamp: msg.timestamp,
-						userInfo: msg.userInfo
-					};
-				});
+						_this.handleChatroomChange(cdata._id, cdata.chatroomName);
+					});
+				} else {
+					getMessages(receivedPayload.chatroom).then(res => {
+						if (!res.success) {
+							this.setState({
+								errorMessage: "Error grabbing messages",
+								userData: receivedPayload,
+								currentRoomID: receivedPayload.chatroom,
+								currentRoom: cdata.chatroomName
+							});
+						}
 
-				this.setState({
-					messages: newMessages,
-					errorMessage: "",
-					userData: receivedPayload
-				});
+						const responseData = res.payload.data.payload;
+
+						let newMessages = responseData.map(msg => {
+							return {
+								message: msg.message,
+								timestamp: msg.timestamp,
+								userInfo: msg.userInfo
+							};
+						});
+
+						this.setState({
+							messages: newMessages,
+							errorMessage: "",
+							userData: receivedPayload,
+							currentRoomID: receivedPayload.chatroom,
+							currentRoom: cdata.chatroomName
+						});
+					});
+				}
+
+				userConnected(this.state.userData);
 			});
-
-			userConnected(this.state.userData);
 		});
 
 		this.socketReceiver();
@@ -79,12 +110,39 @@ export default class Dashboard extends Component {
 		};
 	}
 
+	handleChatroomChange(cid, cname) {
+		getMessages(cid).then(res => {
+			if (!res.success) {
+				this.setState({
+					errorMessage: "Error grabbing messages"
+				});
+			}
+
+			const responseData = res.payload.data.payload;
+
+			let newMessages = responseData.map(msg => {
+				return {
+					message: msg.message,
+					timestamp: msg.timestamp,
+					userInfo: msg.userInfo
+				};
+			});
+
+			this.setState({
+				messages: newMessages,
+				errorMessage: "",
+				currentRoom: cname,
+				currentRoomID: cid
+			});
+		});
+	}
+
 	handleSend(msg) {
 		if (msg) {
 			const msgData = {
 				message: msg,
 				token: this.props.loginToken,
-				chatRoomId: "12345",
+				chatRoomId: this.state.currentRoomID,
 				senderInfo: this.state.userData
 			};
 
@@ -111,6 +169,7 @@ export default class Dashboard extends Component {
 				case "newMessage":
 					let newMessages = this.state.messages.concat({
 						message: res.data.message,
+						timestamp: new Date().toString(),
 						userInfo: res.data.senderInfo
 					});
 					this.setState({
@@ -121,11 +180,11 @@ export default class Dashboard extends Component {
 					_this.socketReceiver();
 					break;
 				case "userConnected":
-					console.log(res);
+					// console.log(res);
 					_this.socketReceiver();
 					break;
 				case "userDisconnected":
-					console.log(res);
+					// console.log(res);
 					_this.socketReceiver();
 					break;
 				default:
@@ -158,7 +217,10 @@ export default class Dashboard extends Component {
 						</h2>
 					</div>
 					<div className="chatRoom">
-						<ChatRooms data={userData} />
+						<ChatRooms
+							data={userData}
+							chatroomChange={this.handleChatroomChange}
+						/>
 					</div>
 					<button
 						className="btn-logout"
@@ -184,6 +246,7 @@ export default class Dashboard extends Component {
 							messages={messages}
 							userData={userData}
 							handleSend={this.handleSend}
+							currentRoom={this.state.currentRoom}
 						/>
 					</div>
 				</div>
