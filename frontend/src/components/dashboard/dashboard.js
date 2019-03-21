@@ -51,19 +51,27 @@ export default class Dashboard extends Component {
 				}
 				const cdata = res.payload.data.payload;
 
-				if (typeof res.payload.data.roomDeleted !== 'undefined' && res.payload.data.roomDeleted) {
-					selectChatroom(cdata._id, receivedPayload.email).then(res => {
-						if (!res.data.success) {
-							this.setState({
-								errorMessage: "Error grabbing messages",
-								userData: receivedPayload,
-								currentRoomID: cdata._id,
-								currentRoom: cdata.chatroomName
-							});
-						}
+				if (
+					typeof res.payload.data.roomDeleted !== "undefined" &&
+					res.payload.data.roomDeleted
+				) {
+					selectChatroom(cdata._id, receivedPayload.email).then(
+						res => {
+							if (!res.data.success) {
+								this.setState({
+									errorMessage: "Error grabbing messages",
+									userData: receivedPayload,
+									currentRoomID: cdata._id,
+									currentRoom: cdata.chatroomName
+								});
+							}
 
-						_this.handleChatroomChange(cdata._id, cdata.chatroomName);
-					});
+							_this.handleChatroomChange(
+								cdata._id,
+								cdata.chatroomName
+							);
+						}
+					);
 				} else {
 					getMessages(receivedPayload.chatroom).then(res => {
 						if (!res.success) {
@@ -167,16 +175,18 @@ export default class Dashboard extends Component {
 		receivingSocketEvents().then(res => {
 			switch (res.type) {
 				case "newMessage":
-					let newMessages = this.state.messages.concat({
-						message: res.data.message,
-						timestamp: new Date().toString(),
-						userInfo: res.data.senderInfo
-					});
-					this.setState({
-						messages: newMessages
-					});
+					if (res.data.chatRoomId === this.state.currentRoomID) {
+						let newMessages = this.state.messages.concat({
+							message: res.data.message,
+							timestamp: new Date().toString(),
+							userInfo: res.data.senderInfo
+						});
+						this.setState({
+							messages: newMessages
+						});
 
-					window.document.title = "Lets Chat - New Message";
+						window.document.title = "Lets Chat - New Message";
+					}
 					_this.socketReceiver();
 					break;
 				case "userConnected":
