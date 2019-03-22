@@ -3,6 +3,11 @@
 
 *.vscode
 
+*.csr
+*.key
+/config/*.csr
+/config/*.key
+
 # misc
 .DS_Store
 .env.local

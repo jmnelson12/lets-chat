@@ -3,6 +3,7 @@ const favicon = require("express-favicon");
 const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
+var sslRedirect = require('heroku-ssl-redirect');
 
 const app = express();
 const server = require("http").Server(app);
@@ -68,6 +69,7 @@ mongoose
 
 // If production
 if (isDev !== "dev") {
+	app.use(sslRedirect());
 	app.use(express.static(__dirname));
 	app.use(express.static(path.join(__dirname, "frontend", "build")));
 
@@ -75,14 +77,6 @@ if (isDev !== "dev") {
 		res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
 	});
 
-	// Redirect to https
-	// app.configure("production", () => {
-	// 	app.use((req, res, next) => {
-	// 		if (req.header("x-forwarded-proto") !== "https")
-	// 			res.redirect(`https://${req.header("host")}${req.url}`);
-	// 		else next();
-	// 	});
-	// });
 }
 
 // Start Express Server
